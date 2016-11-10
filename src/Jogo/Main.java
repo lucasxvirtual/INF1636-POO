@@ -27,7 +27,7 @@ public class Main implements ObservadorIF{
 		Fachada.Registra(this, 3);
 		
 		int i;
-		
+		int m;
 		for (i = 0; i < 4; i++)
 			inicialjogador[i] = CasaInicial.getCasaInicial(i+1);
 		
