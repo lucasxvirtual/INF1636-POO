@@ -51,11 +51,11 @@ public class Fachada {
 	}
 	
 	public static void salvarJogo(){
-		Main.salvarJogo();
+		Main.salvarJogo2();
 	}
 	
 	public static void carregarJogo(){
-		Main.carregarJogo();
+		Main.carregarJogo2();
 	}
 	
 }
