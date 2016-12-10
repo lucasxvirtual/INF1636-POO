@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import Interfaces.ObservadoIF;
 import Interfaces.ObservadorIF;
 import Jogo.Fachada;
+import Jogo.Main;
 
 public class Botoes extends JPanel implements ActionListener, ObservadorIF {
 	
@@ -106,6 +107,15 @@ public class Botoes extends JPanel implements ActionListener, ObservadorIF {
 			ter.setText(txt);
 		else 
 			qua.setText(txt);
+	}
+	
+	public void atualizaBotoes(){
+		if(Main.jogadorServer != Main.getJogador()){
+			RolarDados.setEnabled(false);
+			Main.carregarJogo2();
+		} else {
+			RolarDados.setEnabled(true);
+		}
 	}
 
 }

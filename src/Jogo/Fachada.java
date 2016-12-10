@@ -58,4 +58,8 @@ public class Fachada {
 		Main.carregarJogo2();
 	}
 	
+	public static void atualizaBotao(){
+		Botoes.getBotoes().atualizaBotoes();
+	}
+	
 }

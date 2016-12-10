@@ -31,6 +31,7 @@ public class Main implements ObservadorIF, Runnable {
 	private static TelaNickname telaNickname;
 	public static String s;
 	private static Main x;
+	public static int jogadorServer;
 
 	private void jogo() {
 
@@ -86,6 +87,7 @@ public class Main implements ObservadorIF, Runnable {
 	@Override
 	public void notify(ObservadoIF o) {
 		// TODO Auto-generated method stub
+		
 		int casa = 0;
 		int dado = Dado.getDado().get();
 		if (captura == true) {
@@ -189,7 +191,7 @@ public class Main implements ObservadorIF, Runnable {
 			}
 
 		}
-
+		salvarJogo2();
 	}
 
 	private void pecaFoiCap(int casa) {
@@ -325,6 +327,7 @@ public class Main implements ObservadorIF, Runnable {
 			Fachada.mudaLabel(
 					"Jogador " + jogador + ": nao houve jogada. Jogador " + ((jogador % 4) + 1) + ": role o dado.");
 			jogador = (jogador % 4) + 1;
+			salvarJogo2();
 		} else {
 			Fachada.mudaLabel("jogador " + jogador + ": escolha uma peca");
 			esperaBotao = false;
@@ -429,12 +432,12 @@ public class Main implements ObservadorIF, Runnable {
 //			}
 			
 //			Main.carregarJogo2();
-			x = new Main();s
+			x = new Main();
 			Thread t = new Thread(x);
 			t.start();
 			x.jogo();
-		Main.carregarJogo2();
-		telaNickname.setVisible(false);
+//			Main.carregarJogo2();
+//			telaNickname.setVisible(false);
 //			scanner.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -468,24 +471,26 @@ public class Main implements ObservadorIF, Runnable {
 		try{
 			
 			Scanner scanner = new Scanner(socket.getInputStream());
-			int vet[] = new int[33];
+			int vet[] = new int[34];
 			int l = 0;
 			while(true){
-				if(l == 33) break;
+				if(l == 34) break;
 				if(scanner.hasNext()){
 					vet[l] = Integer.parseInt(scanner.next());
 					if(vet[l] == 999){
 						System.exit(999);
 					}
 					x.setTelaVisible();
+					telaNickname.setVisible(false);
 					l++;
 				}
 			}
 	
-			jogador = vet[0];
+			jogadorServer = vet[0];
+			jogador = vet[1];
 			System.out.print(jogador + " ");
 			for(int i = 0; i < 16; i++){
-				int x = vet[2*i+1];
+				int x = vet[2*i+2];
 				if(x < 53){
 					pecas[i].setPosicao(x);
 					System.out.print(pecas[i].get() + " ");
@@ -494,7 +499,7 @@ public class Main implements ObservadorIF, Runnable {
 					pecas[i].setPosicao(-(x-52));
 					System.out.print((52 - pecas[i].get()) + " ");
 				}
-				pecas[i].setCasasAndadas(vet[2*i+2]);
+				pecas[i].setCasasAndadas(vet[2*i+3]);
 				System.out.print(pecas[i].getCasasAndadas() + " ");
 				if(pecas[i].get() > 0)
 					tab.insere(pecas[i], pecas[i].get());
@@ -502,8 +507,10 @@ public class Main implements ObservadorIF, Runnable {
 					fin[i/4].insere(pecas[i], -(pecas[i].get()));
 
 				Fachada.mudaLabel("jogador " +jogador+ ": role o dado");
+				Fachada.atualizaBotao();
 			}
 		} catch(Exception e){
+			e.printStackTrace();
 			System.exit(90);
 		} 
 	}
@@ -518,6 +525,9 @@ public class Main implements ObservadorIF, Runnable {
 			String msg = Main.s;
 			printStream.println(msg);
 //			}	
+			while(true){
+				carregarJogo2();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
