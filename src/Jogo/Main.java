@@ -28,6 +28,9 @@ public class Main implements ObservadorIF, Runnable {
 	private static boolean captura = false;
 	private static boolean repete = false;
 	private static Socket socket;
+	private static TelaNickname telaNickname;
+	public static String s;
+	private static Main x;
 
 	private void jogo() {
 
@@ -57,25 +60,25 @@ public class Main implements ObservadorIF, Runnable {
 //		inicializaConexao();
 //		Main x = new Main();
 //		x.jogo();
-		new TelaNickname();
-		if(false){
-		try{
-			socket = new Socket("192.168.56.1", 5501);
-			System.out.println("o cliente se conectou ao servidor");
-			Main x = new Main();
-			x.jogo();
-			Thread tClient = new Thread(x);
-			tClient.start();
-//			Scanner scanner = new Scanner(socket.getInputStream());
-//			while(true){
-//				if(scanner.hasNext())
-//					System.out.println(scanner.next());
-//			}
-			
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-		}
+		telaNickname = new TelaNickname();
+//		if(false){
+//		try{
+////			socket = new Socket("192.168.56.1", 5501);
+////			System.out.println("o cliente se conectou ao servidor");
+//			Main x = new Main();
+//			x.jogo();
+//			Thread tClient = new Thread(x);
+//			tClient.start();
+////			Scanner scanner = new Scanner(socket.getInputStream());
+////			while(true){
+////				if(scanner.hasNext())
+////					System.out.println(scanner.next());
+////			}
+//			
+//		} catch(Exception e){
+//			e.printStackTrace();
+//		}
+//		}
 		
 
 	}
@@ -408,18 +411,35 @@ public class Main implements ObservadorIF, Runnable {
 
 	}
 
-	public static void inicializaConexao() {
+	public static void inicializaConexao(String s) {
 		try {
 			socket = new Socket("192.168.56.1", 5501);
 			System.out.println("o cliente se conectou ao servidor");
-			Scanner scanner = new Scanner(System.in);
-			PrintStream printStream = new PrintStream(socket.getOutputStream());
-			printStream.print(scanner.next());
-			scanner.close();
+//			Scanner scanner = new Scanner(System.in);
+//			PrintStream printStream = new PrintStream(socket.getOutputStream());
+//			printStream.print(scanner.next());
+//			printStream.print(s);
+			Main.s = s;
+			telaNickname.visible();
+//			Scanner scanner = new Scanner(socket.getInputStream());
+//			while(true){
+//				if(scanner.hasNext()){
+//					System.out.println(scanner.nextLine());
+//				}
+//			}
+			
+//			Main.carregarJogo2();
+			x = new Main();s
+			Thread t = new Thread(x);
+			t.start();
+			x.jogo();
+		Main.carregarJogo2();
+		telaNickname.setVisible(false);
+//			scanner.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 	
 	public static void salvarJogo2(){
@@ -444,6 +464,7 @@ public class Main implements ObservadorIF, Runnable {
 	}
 
 	public static void carregarJogo2(){
+		
 		try{
 			
 			Scanner scanner = new Scanner(socket.getInputStream());
@@ -453,6 +474,10 @@ public class Main implements ObservadorIF, Runnable {
 				if(l == 33) break;
 				if(scanner.hasNext()){
 					vet[l] = Integer.parseInt(scanner.next());
+					if(vet[l] == 999){
+						System.exit(999);
+					}
+					x.setTelaVisible();
 					l++;
 				}
 			}
@@ -488,15 +513,19 @@ public class Main implements ObservadorIF, Runnable {
 		// TODO Auto-generated method stub
 		try {
 			PrintStream printStream = new PrintStream(socket.getOutputStream());
-			Scanner scanner = new Scanner(System.in);
-			while(true){
-				String msg = scanner.nextLine();
-				printStream.println(msg);
-			}
+//			Scanner scanner = new Scanner(System.in);
+//			while(true){
+			String msg = Main.s;
+			printStream.println(msg);
+//			}	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setTelaVisible(){
+		t.setVisible(true);
 	}
 
 }
