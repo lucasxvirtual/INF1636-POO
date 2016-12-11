@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import Desenha.Botoes;
 import Desenha.Tela;
 import Desenha.TelaNickname;
 import Estrutura.CasaInicial;
@@ -57,36 +58,11 @@ public class Main implements ObservadorIF, Runnable {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-//		inicializaConexao();
-//		Main x = new Main();
-//		x.jogo();
 		telaNickname = new TelaNickname();
-//		if(false){
-//		try{
-////			socket = new Socket("192.168.56.1", 5501);
-////			System.out.println("o cliente se conectou ao servidor");
-//			Main x = new Main();
-//			x.jogo();
-//			Thread tClient = new Thread(x);
-//			tClient.start();
-////			Scanner scanner = new Scanner(socket.getInputStream());
-////			while(true){
-////				if(scanner.hasNext())
-////					System.out.println(scanner.next());
-////			}
-//			
-//		} catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		}
-		
-
 	}
 
 	@Override
 	public void notify(ObservadoIF o) {
-		// TODO Auto-generated method stub
 		
 		int casa = 0;
 		int dado = Dado.getDado().get();
@@ -275,7 +251,6 @@ public class Main implements ObservadorIF, Runnable {
 
 	}
 
-	// TODO terminar implementaçao de calculaColocacao
 	private static void calculaColocacao() {
 		Peca x;
 		int soma[] = new int[4];
@@ -313,7 +288,7 @@ public class Main implements ObservadorIF, Runnable {
 		for (fim = n - 1; fim > 0; fim--)
 			for (i = 0; i < fim; i++)
 				if (v[i] > v[i + 1]) {
-					int temp = v[i]; /* troca */
+					int temp = v[i]; 
 					v[i] = v[i + 1];
 					v[i + 1] = temp;
 					temp = jogador[i];
@@ -348,21 +323,16 @@ public class Main implements ObservadorIF, Runnable {
 		try {
 			outputStream = new FileWriter("arquivo.txt");
 			outputStream.write(jogador);
-			
-//			System.out.print(jogador + " ");
 
 			for (int i = 0; i < 16; i++) {
 				if (pecas[i].get() >= 0){
 					outputStream.write(pecas[i].get());
-//					System.out.print(pecas[i].get() + " ");
 				}
 				if (pecas[i].get() < 0){
 					outputStream.write((52 - pecas[i].get()));
-//					System.out.print((52 - pecas[i].get()) + " ");
 				}
 				
 				outputStream.write(pecas[i].getCasasAndadas());
-//				System.out.print(pecas[i].getCasasAndadas() + " ");
 			}
 		} catch (Exception e) {
 			System.exit(0);
@@ -371,7 +341,6 @@ public class Main implements ObservadorIF, Runnable {
 				try {
 					outputStream.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					System.exit(1);
 				}
 		}
@@ -418,27 +387,14 @@ public class Main implements ObservadorIF, Runnable {
 		try {
 			socket = new Socket("192.168.56.1", 5501);
 			System.out.println("o cliente se conectou ao servidor");
-//			Scanner scanner = new Scanner(System.in);
-//			PrintStream printStream = new PrintStream(socket.getOutputStream());
-//			printStream.print(scanner.next());
-//			printStream.print(s);
+
 			Main.s = s;
 			telaNickname.visible();
-//			Scanner scanner = new Scanner(socket.getInputStream());
-//			while(true){
-//				if(scanner.hasNext()){
-//					System.out.println(scanner.nextLine());
-//				}
-//			}
-			
-//			Main.carregarJogo2();
+
 			x = new Main();
 			Thread t = new Thread(x);
 			t.start();
 			x.jogo();
-//			Main.carregarJogo2();
-//			telaNickname.setVisible(false);
-//			scanner.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -507,7 +463,8 @@ public class Main implements ObservadorIF, Runnable {
 					fin[i/4].insere(pecas[i], -(pecas[i].get()));
 
 				Fachada.mudaLabel("jogador " +jogador+ ": role o dado");
-				Fachada.atualizaBotao();
+//				Fachada.atualizaBotao();
+				Botoes.getBotoes().repaint();
 			}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -517,19 +474,17 @@ public class Main implements ObservadorIF, Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+
 		try {
 			PrintStream printStream = new PrintStream(socket.getOutputStream());
-//			Scanner scanner = new Scanner(System.in);
-//			while(true){
+
 			String msg = Main.s;
 			printStream.println(msg);
-//			}	
+	
 			while(true){
 				carregarJogo2();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

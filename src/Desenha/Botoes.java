@@ -74,6 +74,7 @@ public class Botoes extends JPanel implements ActionListener, ObservadorIF {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		if(Main.jogadorServer == Main.getJogador()){
 		if(e.getActionCommand().equals("Rolar dados")){
 			Fachada.btnClicado();
 		}
@@ -82,6 +83,7 @@ public class Botoes extends JPanel implements ActionListener, ObservadorIF {
 		}
 		else {
 			Fachada.carregarJogo();
+		}
 		}
 		
 	}
