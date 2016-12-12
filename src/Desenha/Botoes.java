@@ -74,23 +74,22 @@ public class Botoes extends JPanel implements ActionListener, ObservadorIF {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(Main.jogadorServer == Main.getJogador()){
-		if(e.getActionCommand().equals("Rolar dados")){
-			Fachada.btnClicado();
+		if(Fachada.comparePlayerTime()){
+			if(e.getActionCommand().equals("Rolar dados")){
+				Fachada.btnClicado();
+			}
+			else if (e.getActionCommand().equals("Salvar jogo")){
+				Fachada.salvarJogo();
+			}
+			else {
+				Fachada.carregarJogo();
+			}
 		}
-		else if (e.getActionCommand().equals("Salvar jogo")){
-			Fachada.salvarJogo();
-		}
-		else {
-			Fachada.carregarJogo();
-		}
-		}
-		
+		repaint();
 	}
 
 	@Override
 	public void notify(ObservadoIF o) {
-		// TODO Auto-generated method stub
 		valor = o.get() - 1;
 		repaint();
 	}
@@ -112,7 +111,7 @@ public class Botoes extends JPanel implements ActionListener, ObservadorIF {
 	}
 	
 	public void atualizaBotoes(){
-		if(Main.jogadorServer != Main.getJogador()){
+		if(!Fachada.comparePlayerTime()){
 			RolarDados.setEnabled(false);
 			Main.carregarJogo2();
 		} else {

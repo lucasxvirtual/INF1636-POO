@@ -18,6 +18,7 @@ public class Nickname extends JPanel implements ActionListener {
 	private JLabel label = new JLabel("escreva seu nickname: ");
 	private JTextField textfield = new JTextField();
 	private JLabel label2 = new JLabel("esperando pelos outros jogadores");
+	private boolean alreadySent = false;
 	
 	public Nickname(){
 		setSize(500, 500);
@@ -39,13 +40,15 @@ public class Nickname extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		String s = textfield.getText();
-		Main.inicializaConexao(s);
+		if(this.alreadySent == false){
+			String s = textfield.getText();
+			Main.inicializaConexao(s);
+			alreadySent = true;
+		}
 		
 	}
 	
 	public void setLabelVisibility(boolean visible){
 		label2.setVisible(visible);
 	}
-
 }

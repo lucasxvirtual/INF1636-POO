@@ -62,4 +62,14 @@ public class Fachada {
 		Botoes.getBotoes().atualizaBotoes();
 	}
 	
+	public static void repaintButtons(){
+		Botoes.getBotoes().repaint();
+	}
+	
+	public static boolean comparePlayerTime(){
+		if(Main.getJogador() == Main.getJogadorServer())
+			return true;
+		return false;
+	}
+	
 }

@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-import Desenha.Botoes;
 import Desenha.Tela;
 import Desenha.TelaNickname;
 import Estrutura.CasaInicial;
@@ -30,9 +29,9 @@ public class Main implements ObservadorIF, Runnable {
 	private static boolean repete = false;
 	private static Socket socket;
 	private static TelaNickname telaNickname;
-	public static String s;
+	private static String s;
 	private static Main x;
-	public static int jogadorServer;
+	private static int jogadorServer;
 
 	private void jogo() {
 
@@ -464,7 +463,7 @@ public class Main implements ObservadorIF, Runnable {
 
 				Fachada.mudaLabel("jogador " +jogador+ ": role o dado");
 //				Fachada.atualizaBotao();
-				Botoes.getBotoes().repaint();
+				Fachada.repaintButtons();
 			}
 		} catch(Exception e){
 			e.printStackTrace();
@@ -491,6 +490,10 @@ public class Main implements ObservadorIF, Runnable {
 	
 	public void setTelaVisible(){
 		t.setVisible(true);
+	}
+	
+	public static int getJogadorServer(){
+		return jogadorServer;
 	}
 
 }
